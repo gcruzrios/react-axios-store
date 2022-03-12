@@ -31,9 +31,9 @@ function App() {
           <div className="col-md-12">
             <Switch>
               <Route exact path='/' component={Products} />
-              <Route path="/create-user" component={CreateProduct} />
-              <Route path="/edit-user/:id" component={EditProduct} />
-              <Route path="/users" component={Products} />
+              <Route path="/create-product" component={CreateProduct} />
+              <Route path="/edit-product/:id" component={EditProduct} />
+              <Route path="/products" component={Products} />
             </Switch>
           </div>
         </div>
