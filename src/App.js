@@ -2,10 +2,9 @@ import React from 'react';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-import CreateUser from "./components/create-user.component";
-import EditUser from "./components/edit-user.component";
-
-import Users from "./components/users.component";
+import CreateProduct from './components/create-product.component';
+import Products from './components/products.component';
+import EditProduct from "./components/edit-product.component";
 
 function App() {
   return (<Router>
@@ -17,10 +16,10 @@ function App() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ml-auto">
               <li className="nav-item active">
-                <Link className="nav-link" to={"/create-user"}>Create User</Link>
+                <Link className="nav-link" to={"/create-product"}>Create Product</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to={"/users"}>Users List</Link>
+                <Link className="nav-link" to={"/products"}>Products List</Link>
               </li>
             </ul>
           </div>
@@ -31,10 +30,10 @@ function App() {
         <div className="row mt-5">
           <div className="col-md-12">
             <Switch>
-              <Route exact path='/' component={CreateUser} />
-              <Route path="/create-user" component={CreateUser} />
-              <Route path="/edit-user/:id" component={EditUser} />
-              <Route path="/users" component={Users} />
+              <Route exact path='/' component={Products} />
+              <Route path="/create-user" component={CreateProduct} />
+              <Route path="/edit-user/:id" component={EditProduct} />
+              <Route path="/users" component={Products} />
             </Switch>
           </div>
         </div>

@@ -4,63 +4,52 @@ import {
 } from "react-router-dom";
 import axios from 'axios';
 
-//const [usuarios,setUsuarios] = useState([]);
-let Usuarios = [];
+
+let ListProducts = [];
 
 class DataTable extends Component {
 
     state = {
         data: this.props.obj,
-        modalActualizar: false,
-        modalInsertar: false,
+
         form: {
           id: "",
-          name: "",
-          email: "",
+          dateTime: "",
+          product: "",
+          price: "0"
         },
       };
     
 
-    mostrarModalActualizar = (dato) => {
-      this.setState({
-        form: dato,
-        modalActualizar: true,
-       });
-    };
-    
-    cerrarModalActualizar = () => {
-      this.setState({ modalActualizar: false });
-    };
-
-
-    obtenerUsuarios= async() => {
+    getProducts= async() => {
         
-        const respuesta = await axios.get(`http://localhost:4000/users/`)
+        const response = await axios.get(`api/sales`)
       
-        //console.log(respuesta.data);
-        Usuarios = respuesta.data;
-        console.log(respuesta.data);
+        console.log(response.data);
+        ListProducts = response.data;
+        console.log(response.data);
         window.location.reload(false);
         //this.render();
     }
 
 
     eliminar =  async (dato) => {
-        var opcion = window.confirm("Estás Seguro que deseas Eliminar el elemento "+dato._id);
-        //var lista = this.state.data;
-
+        var opcion = window.confirm("Are sure to delete this product:? "+dato.id);
+        var lista = this.state.data;
+        console.log(lista);
         if (opcion === true) {
           
-            const respuesta = await axios.delete(`http://localhost:4000/users/delete/${dato._id}`)
+            const response = await axios.delete(`api/sales/?id=${dato.id}`)
+    
             .then((res) => {
-                console.log(respuesta.data)
+                console.log(response.data)
             }).catch((error) => {
                 console.log(error)
             });
          
-            this.obtenerUsuarios();
+            this.getProducts();
           
-            this.setState(Usuarios);
+            this.setState(ListProducts);
 
 
         }
@@ -71,19 +60,28 @@ class DataTable extends Component {
            <> 
             <tr>
                 <td>
-                    {this.props.obj._id}
+                    {this.props.obj.id}
                 </td>
                 <td>
-                    {this.props.obj.name}
+                    {this.props.obj.dataTime}
                 </td>
                 <td>
-                    {this.props.obj.email}
+                    {this.props.obj.product}
                 </td>
-                <td><Link to={`/edit-user/${this.props.obj._id}`} className="btn btn-primary"> Edit </Link></td>
+                <td>
+                    {this.props.obj.price}
+                </td>
+                <td>
+                
+                {/* <Button title="Edit" onPress={() => {this.props.navigation.navigate('Details', {id: 4 , otherParam: 'anything you want here',});}}/> */}
+                    
+                    <Link to={`/edit-product/${this.props.obj.id}`}  className="btn btn-primary"> Edit </Link>
+                    
+                </td>
 
                 <td> <button className="btn btn-danger" onClick={()=> this.eliminar(this.props.obj)}> Delete</button> </td>
             </tr>
-            {/* isOpen={this.state.modalActualizar} */}
+          
           </>
         );
     }
