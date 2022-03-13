@@ -133,9 +133,15 @@ export default class EditUser extends Component {
     onSubmit(e) {
         e.preventDefault()
         const id = this.props.match.params.id;
+
+        var product_date = new Date().toISOString();
+
+
+
+
         const productObject = {
             id:id,
-            dateTime: Date.now(),
+            dataTime: product_date,
             product: this.state.product,
             price: this.state.price
         };
@@ -148,7 +154,7 @@ export default class EditUser extends Component {
                 console.log(error)
             });
 
-        this.setState({ dateTime:Date.now(), product: '', precio: '0' })
+        this.setState({ dateTime:product_date, product: '', precio: '0' })
         window.location.href='/products';
     }
 

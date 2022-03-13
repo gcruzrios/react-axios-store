@@ -11,7 +11,7 @@ function App() {
     <div className="App">
       <header>
         <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-          <a className="navbar-brand">React Axios Tutorial</a>
+          <a  href="/#" className="navbar-brand">React Axios Tutorial</a>
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ml-auto">

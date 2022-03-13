@@ -1,7 +1,7 @@
 // ** create-user.component.js ** //
 
 import React, { Component } from 'react';
-import DatepickerComponent from "./datepicker.component";
+//import DatepickerComponent from "./datepicker.component";
 
 import axios from 'axios';
 
@@ -10,20 +10,34 @@ export default class CreateProduct extends Component {
     constructor(props) {
         super(props)
 
+        this.onChangePdate = this.onChangePdate.bind(this);
+        
         this.onChangeProductName = this.onChangeProductName.bind(this);
         this.onChangeProductPrice = this.onChangeProductPrice.bind(this);
+
         this.onSubmit = this.onSubmit.bind(this);
+
+        //---
+        var MyDateString;
+        var MyDate = new Date();
+      
+
+        MyDate.setDate(MyDate.getDate() + 0);
+
+        MyDateString =   MyDate.getFullYear()+ '-' + ('0' + (MyDate.getMonth()+1)).slice(-2) + '-' + ('0' + MyDate.getDate()).slice(-2);
+
+
+
         
-        var today = new Date();
-
-        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-
-        console.log(date);
+        //var today = new Date();
+        //var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        
+        console.log(MyDateString);
         //selectedDate:"2015-04-14"
         this.state = {
             //selectedDate:"2022-03-14",
-            selectedDate:date.toString,
-            pdate: date.toString,
+            selectedDate:MyDateString,
+            pdate: MyDateString,
             product: '',
             price: '0'
         }
@@ -34,19 +48,12 @@ export default class CreateProduct extends Component {
         this.setState({ pdate: e.target.value })
     }
 
-    onChangeProductDate(e) {
+    // onChangeProductDate(e) {
 
-        this.setState({ pdate: e.target.value })
-    }
+    //     this.setState({ pdate: e.target.value })
+    // }
 
-    // handleClick() {
-    //     this.setState({ count: this.state.count + 1 })
-    //   }
     
-    // handleClick = () => {
-    // this.setState({ count: this.state.count + 1 })
-    //   }
-
     handleOnChange = (e) => {
         this.setState({ pdate: e.target.value })
     }
@@ -74,16 +81,29 @@ export default class CreateProduct extends Component {
     
     onSubmit(e) {
         e.preventDefault()
-        var today = new Date();
-
-        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
         
+        // const date = new Date(this.state.pdate);
+        // const date = new Date(Date.UTC(this.state.pdate));
+        
+         new Date(); 
+         var date = new Date(); 
+         var now_utc =  Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
+         date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+                 
+         console.log(now_utc);
+         console.log(new Date().toISOString());
+
+         var product_date = new Date().toISOString();
+         
+
+        //const date = '2022-03-15T12:00:00Z';
         const productObject = {
-           
-            pdate: this.state.pdate,
+            dataTime:product_date,
             product: this.state.product,
             price: this.state.price
         };
+
+        console.log(productObject);
 
         axios.post('/api/sales', productObject)
             .then((res) => {
@@ -92,7 +112,7 @@ export default class CreateProduct extends Component {
                 console.log(error)
             });
 
-        this.setState({  doa: date, product: '', price: '0' })
+        this.setState({  dataTime: product_date, product: '', price: '0' })
         window.location.href='/products';
     }
 
@@ -105,11 +125,13 @@ export default class CreateProduct extends Component {
                     {/* <div className="form-group">
                             <DatepickerComponent selectedValue={this.state.selectedDate} onChange={this.handleOnChange}/>
                     </div> */}
-                    <DatepickerComponent selectedValue={this.state.selectedDate} onChange={this.handleOnChange}/>
-                    <div className="form-group">
+                    
+                    {/* <DatepickerComponent selectedValue={this.state.selectedDate} onChange={this.handleOnChange}/> */}
+                    
+                    {/* <div className="form-group">
                         <label>Add Product Date Arrival</label>
-                        <input type="text" value={this.state.pdate} onChange={this.onChangeProductDate} className="form-control" />
-                    </div>
+                        <input type="text" value={this.state.dateTime} onChange={this.onChangeProductDate} className="form-control" />
+                    </div> */}
                     <div className="form-group">
                         <label>Add Product Name</label>
                         <input type="text" value={this.state.product} onChange={this.onChangeProductName} className="form-control" />
